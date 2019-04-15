@@ -1,0 +1,74 @@
+select * from emp;
+select * from dept;
+
+/*3*/
+select empno, sal, dname from emp e left outer join dept d on e.deptno = d.deptno;
+
+/*4*/
+select dname from emp e left outer join dept d on e.deptno = d.deptno where ename like 'KING';
+
+/*5*/
+select * from dept;
+select e.ename, e.deptno, d.dname, e.sal from emp e left outer join dept d on e.deptno = d.deptno;
+
+/*6*/
+select concat(a.ename,"의 매니저는",b.ename,"이다") from emp a join emp b where a.mgr = b.empno;
+
+/*7*/
+SELECT 
+    e.ename, d.dname, e.sal, e.job
+FROM
+    emp e
+        LEFT OUTER JOIN
+    dept d ON e.deptno = d.deptno
+WHERE
+    e.job LIKE (SELECT  job FROM  emp WHERE ename LIKE 'SCOTT');
+    
+/*8*/
+SELECT  deptno FROM  emp WHERE ename LIKE 'SCOTT';
+select empno,ename,hiredate,sal from emp where deptno = (SELECT  deptno FROM  emp WHERE ename LIKE 'SCOTT');
+
+
+/*9*/
+    
+select e.empno, e.ename, d.deptno, e.hiredate, d.loc, e.sal 
+from (select * from emp where sal >= (select avg(sal) from emp)) e left outer join dept d on e.deptno = d.deptno ;
+
+/*10*/
+select e.empno, e.ename, d.deptno, e.hiredate, d.loc, e.sal 
+from emp e left outer join dept d on e.deptno = d.deptno  where e.job in (select job from emp where deptno=30) order by e.sal desc;
+
+/*11*/
+select e.empno, e.ename, d.deptno, e.hiredate, d.loc, e.sal 
+from emp e left outer join dept d on e.deptno = d.deptno  where e.deptno=10 and e.job in (select job from emp where deptno=10);
+
+
+/*12*/
+select empno,ename,sal from emp where sal = (select sal from emp where ename like 'KING') or sal = (select sal from emp where ename like 'JAMES');
+
+/*13*/
+select max(sal) from emp where deptno=30;
+
+select empno, ename, sal from emp where sal > (select max(sal) from emp where deptno=30);
+
+/*14*/
+create index idx on emp(ename);
+
+select * from emp;
+
+/*15*/
+select ename, sal from emp where year(hiredate) = year((select hiredate from emp where ename like 'ALLEN'));
+
+/*16*/
+create view V as
+select sum(sal) as avgsal from emp group by deptno;
+
+drop view V;
+
+/*17*/
+select * from V order by avgsal desc;
+
+
+
+
+
