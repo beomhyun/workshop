@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="./table.css"/>
+<title>SSAFY</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+<div id='app'>
+<div class='headtitle'><h2>SSAFY HRM LIST</h2></div>
+<div class='search_box'>
+<a href='./index04.html'>ì¬ìì¶ê°</a> | 
+<a href='./index03.html'>ì´ë¦ì¼ë¡ ì°¾ê¸°</a> |
+<a href='./index02.html'>ìì´ëë¡ ì°¾ê¸°</a> |
+<a href='./index01.html'>ëª¨ë ì¬ì ë³´ê¸°</a>
+</div>
+<table class='list_table'>
+<col width="10%"><col width="20%">
+<col width="20%"><col width="20%"><col width="10%">
+<tr>
+  <th>ì¬ì ìì´ë</th>
+  <th>ì¬ìëª</th>
+  <th>ë¶ì</th>
+  <th>ì§ì±</th>
+  <th>ì°ë´</th>
+</tr>
+<!--  ì¬ê¸°ì <tr v-for -->
+<tr v-for= "inf in info">
+<td v-html="inf.id"></td>
+<td v-html="inf.name"></td>
+<td v-html="inf.dept_id"></td>
+<td v-html="inf.title"></td>
+<td>{{ inf.salary | salarydecimal }}</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript">
+new Vue({
+  el: '#app',
+  data : {
+      info: [{"id":1,"name":"ë°êµ¬ê³¤","mailid":"sky98","start_date":"1990-03-03","manager_id":0,"title":"ì¬ì¥","dept_id":118,"salary":5000.0,"commission_pct":0.0},
+    	  {"id":2,"name":"ìëªì±","mailid":"2xxsig","start_date":"1990-03-08","manager_id":1,"title":"ê¸°íë¶ì¥","dept_id":110,"salary":3000.0,"commission_pct":0.0},
+    	  {"id":3,"name":"ì´ìì ","mailid":"ch21175","start_date":"1991-06-17","manager_id":1,"title":"ììë¶ì¥","dept_id":102,"salary":3500.0,"commission_pct":0.0},
+    	  {"id":4,"name":"ììí","mailid":"mquickto","start_date":"1990-04-07","manager_id":1,"title":"ì´ë¬´ë¶ì¥","dept_id":101,"salary":3000.0,"commission_pct":0.0}
+],
+      loading: true,
+      errored: false 
+  },
+  filters: {
+	   salarydecimal (value) {
+      return value.toFixed(2)
+    }
+  }
+})
+ </script>
+</body>
+</html>
