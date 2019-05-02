@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="./table.css"/>
+<title>SSAFY</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+<div id='app'>
+<div class='headtitle'><h2>FLAG</h2></div>
+<table class='list_table'>
+<col width="10%"><col width="20%">
+<col width="20%"><col width="20%"><col width="10%">
+<tr>
+  <th>code</th>
+  <th>name</th>
+  <th>flag</th>
+  <th>korname</th>
+</tr>
+<tr v-for="flag in flags">
+  <td v-html="flag.code" @click="show_employeebydepartment(dept.dept_id)"></td>
+  <td v-html="flag.name"></td>
+  <td><img alt="flag.flag" v-bind:src=flag.flag></td>
+  <td v-html="flag.korname"></td>
+</tr>
+</table>
+
+<div class= 'search_box' v-if="isclick">
+<span v-html='deptsid'></span>ì ë¶ììë¤
+<table class='list_table'>
+<col width="10%"><col width="20%">
+<col width="20%"><col width="20%"><col width="10%"><col width="10%">
+<tr>
+  <th>ì¬ì ìì´ë</th>
+  <th>ì¬ìëª</th>
+  <th>ë¶ì</th>
+  <th>ì§ì±</th>
+  <th>ì°ë´</th>
+</tr>
+<tr v-for="emp in emps">
+  <td v-html="emp.id"></td>
+  <td v-html="emp.name"></td>
+  <td v-html="emp.dept_id"></td>
+  <td v-html="emp.title"></td>
+  <td>{{ emp.salary | salarydecimal }}</td>
+</tr>
+</table>
+</div>
+</div>
+
+<script type="text/javascript">
+new Vue({
+  el: '#app',
+  data () {
+    return {
+      deptsid:'',
+      isclick:false,
+      emps: [],
+      flags: [],
+      loading: true,
+      errored: false 
+    }
+  },
+  filters: {
+	   salarydecimal (value) {
+      return value.toFixed(2)
+    }
+  },
+  methods : {
+	show_employeebydepartment : function(departmentid){
+		this.deptsid = departmentid;
+		this.isclick = true;
+		axios
+	      .get('http://localhost:8197/ssafyvue/api/findDepartmentsBydeptid/'+departmentid)
+	      //.get('./emp.json')
+	      .then(response => (this.emps = response.data))
+	      .catch(error => {
+	        console.log(error)
+	        this.errored = true
+	      })
+	      .finally(() => this.loading = false)
+	}  
+  },
+  mounted () {
+    axios
+      .get('http://localhost:8197/ssafyvue/api/getflag/')
+      //.get('./emp.json')
+      .then(response => (this.flags = response.data))
+      .catch(error => {
+        console.log(error)
+        this.errored = true
+      })
+      .finally(() => this.loading = false)
+  }
+})
+Vue.config.devtools = true;
+ </script>
+</body>
+</html>
