@@ -1,0 +1,17 @@
+ <select id="getflagByname" parameterType="java.lang.String" 
+     resultType="com.ssafy.edu.vue.dto.flagDto">
+	select code, name, flag, korname from flag where korname like concat('%','가','%')
+ </select>
+
+
+@Override
+	public List<flagDto> getflagByname(String name) throws Exception {
+		return sqlSession.selectList(ns+"getflagByname");
+	}
+
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<flagDto> getflagByname(String name) throws Exception {
+		return employeeDao.getflagByname(name);
+	}
